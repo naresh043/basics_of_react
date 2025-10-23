@@ -6,7 +6,6 @@ const LogIn = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Check if user is already logged in
     const savedUser = localStorage.getItem("username");
     const savedPassword = localStorage.getItem("password");
     if (savedUser && savedPassword) {

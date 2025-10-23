@@ -8,11 +8,11 @@ const SignUp = () => {
   const [storedUsername, setStoredUsername] = useState("");
   const [storedPassword, setStoredPassword] = useState("");
 
-  // Handle input fields
+  
   const handleUsername = (e) => setUsername(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
-  // Signup logic
+
   const handleSignUp = (e) => {
     e.preventDefault();
     if (!username || !password) {
@@ -20,7 +20,7 @@ const SignUp = () => {
       return;
     }
 
-    // Store credentials in state
+ 
     setStoredUsername(username);
     setStoredPassword(password);
     alert("Account created successfully! You can now log in.");
@@ -29,7 +29,7 @@ const SignUp = () => {
     setPassword("");
   };
 
-  // Login logic
+
   const handleLogIn = (e) => {
     e.preventDefault();
 
@@ -41,7 +41,7 @@ const SignUp = () => {
     }
   };
 
-  // Logout logic
+
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUsername("");
