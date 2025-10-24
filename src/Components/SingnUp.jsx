@@ -3,24 +3,45 @@ import React, { useState } from "react";
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const [storedUsername, setStoredUsername] = useState("");
   const [storedPassword, setStoredPassword] = useState("");
 
-  
   const handleUsername = (e) => setUsername(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
+  // ✅ Validation function (same logic style as BasicForm)
+  const validate = () => {
+    const newErrors = {};
 
+    if (!username.trim()) {
+      newErrors.username = "Username is required";
+    } else if (username.length < 3) {
+      newErrors.username = "Username must be at least 3 characters long";
+    }
+
+    if (!password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters long";
+    }
+
+    return newErrors;
+  };
+
+  // ✅ Signup validation and logic
   const handleSignUp = (e) => {
     e.preventDefault();
-    if (!username || !password) {
-      alert("Please enter valid credentials.");
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
 
- 
+    setErrors({});
     setStoredUsername(username);
     setStoredPassword(password);
     alert("Account created successfully! You can now log in.");
@@ -29,9 +50,15 @@ const SignUp = () => {
     setPassword("");
   };
 
-
+  // ✅ Login validation and logic
   const handleLogIn = (e) => {
     e.preventDefault();
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
     if (username === storedUsername && password === storedPassword) {
       setIsLoggedIn(true);
@@ -40,7 +67,6 @@ const SignUp = () => {
       alert("Invalid username or password!");
     }
   };
-
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -77,6 +103,7 @@ const SignUp = () => {
               Create Account
             </h2>
             <form onSubmit={handleSignUp} className="space-y-6">
+              {/* Username */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Username
@@ -85,11 +112,19 @@ const SignUp = () => {
                   type="text"
                   value={username}
                   onChange={handleUsername}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 outline-none"
+                  className={`w-full px-4 py-3 border-2 rounded-lg outline-none bg-white text-gray-900 placeholder-gray-400 transition duration-200 ${
+                    errors.username
+                      ? "border-red-500 focus:ring-red-200"
+                      : "border-gray-300 focus:ring-2 focus:ring-purple-500"
+                  }`}
                   placeholder="Choose a username"
                 />
+                {errors.username && (
+                  <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+                )}
               </div>
+
+              {/* Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Password
@@ -98,11 +133,18 @@ const SignUp = () => {
                   type="password"
                   value={password}
                   onChange={handlePassword}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 outline-none"
+                  className={`w-full px-4 py-3 border-2 rounded-lg outline-none bg-white text-gray-900 placeholder-gray-400 transition duration-200 ${
+                    errors.password
+                      ? "border-red-500 focus:ring-red-200"
+                      : "border-gray-300 focus:ring-2 focus:ring-purple-500"
+                  }`}
                   placeholder="Create a password"
                 />
+                {errors.password && (
+                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+                )}
               </div>
+
               <button
                 type="submit"
                 className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-blue-700 transition duration-300 shadow-lg transform hover:scale-105"
@@ -126,6 +168,7 @@ const SignUp = () => {
               Welcome Back
             </h2>
             <form onSubmit={handleLogIn} className="space-y-6">
+              {/* Username */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Username
@@ -134,11 +177,19 @@ const SignUp = () => {
                   type="text"
                   value={username}
                   onChange={handleUsername}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none"
+                  className={`w-full px-4 py-3 border-2 rounded-lg outline-none bg-white text-gray-900 placeholder-gray-400 transition duration-200 ${
+                    errors.username
+                      ? "border-red-500 focus:ring-red-200"
+                      : "border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  }`}
                   placeholder="Enter your username"
                 />
+                {errors.username && (
+                  <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+                )}
               </div>
+
+              {/* Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Password
@@ -147,11 +198,18 @@ const SignUp = () => {
                   type="password"
                   value={password}
                   onChange={handlePassword}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none"
+                  className={`w-full px-4 py-3 border-2 rounded-lg outline-none bg-white text-gray-900 placeholder-gray-400 transition duration-200 ${
+                    errors.password
+                      ? "border-red-500 focus:ring-red-200"
+                      : "border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  }`}
                   placeholder="Enter your password"
                 />
+                {errors.password && (
+                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+                )}
               </div>
+
               <button
                 type="submit"
                 className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-700 hover:to-cyan-700 transition duration-300 shadow-lg transform hover:scale-105"

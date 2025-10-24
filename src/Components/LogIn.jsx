@@ -58,6 +58,7 @@ const LogIn = () => {
               value={username}
               onChange={handleUsername}
               required
+              minLength="6"
             />
           </div>
           <div>
